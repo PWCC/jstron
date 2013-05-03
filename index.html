@@ -28,7 +28,7 @@ var currentStage;
 var player1 = function() {
   this.x = 0;
   this.y = 0;
-  this.direction = "east";
+  this.direction = "";
 
   this.TurnLeft = function() {
     if (this.direction == "north") {
@@ -64,7 +64,7 @@ var player1 = function() {
 var player2 = function() {
   this.x = 0;
   this.y = 0;
-  this.direction = "west";
+  this.direction = "";
 
   this.TurnLeft = function() {
     if (this.direction == "north") {
@@ -142,11 +142,13 @@ stageArray[player2.x][player2.y][1] = "p2";
 DrawStage();
 
 function Player1AI(stage, me, enemyPosition) {
+  //me.direction = "east";
 
   return me;
 }
 
 function Player2AI(stage, me, enemyPosition) {
+  //me.direction = "west";
 
   return me;
 }
@@ -155,6 +157,10 @@ alert("Ready to start?");
 
 var x = 0;
 
+//Just setting a inital direction so you can see them move lol
+player1.direction = "east";
+player2.direction = "west";
+
 MainLoop = function() {
   c.width = c.width;
 
@@ -162,8 +168,8 @@ MainLoop = function() {
   currentPlayer1 = player1;
   currentPlayer2 = player2;
 
-  player1.direction = Player1AI(currentStage, player1, [currentPlayer2.x, currentPlayer2.y]).direction;
-  player2.direction = Player2AI(currentStage, player2, [currentPlayer1.x, currentPlayer1.y]).direction;
+  player1.direction = Player1AI(currentStage, currentPlayer1, [currentPlayer2.x, currentPlayer2.y]).direction;
+  player2.direction = Player2AI(currentStage, currentPlayer2, [currentPlayer1.x, currentPlayer1.y]).direction;
 
   //Player 1 shit
   if (player1.direction == "north") {
@@ -181,16 +187,16 @@ MainLoop = function() {
 
   //Player 2 shit
   if (player2.direction == "north") {
-    player1.y = player1.y - 1;
+    player2.y = player2.y - 1;
   }
   if (player2.direction == "south") {
-    player1.y = player1.y + 1;
+    player2.y = player2.y + 1;
   }
   if (player2.direction == "west") {
-    player1.x = player1.x - 1;
+    player2.x = player2.x - 1;
   }
   if (player2.direction == "east") {
-    player1.x = player1.x + 1;
+    player2.x = player2.x + 1;
   }
 
   //Actually places the players
