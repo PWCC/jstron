@@ -1,6 +1,7 @@
 <canvas id="jstron" width="640" height="480"></canvas>
 
 <script>
+document.addEventListener("keydown", KeyDown, false);
 
 var STAGEWIDTH = 64; //units blocksize
 var STAGEHEIGHT = 48; //units blocksize
@@ -27,34 +28,34 @@ var currentStage;
 var player1 = function() {
   this.x = 0;
   this.y = 0;
-  this.direction = "";
+  this.direction = "east";
 
   this.TurnLeft = function() {
-    if (this.direction = "north") {
+    if (this.direction == "north") {
       this.direction = "west";
     }
-    if (this.direction = "south") {
+    if (this.direction == "south") {
       this.direction = "east";
     }
-    if (this.direction = "west") {
+    if (this.direction == "west") {
       this.direction = "south";
     }
-    if (this.direction = "east") {
+    if (this.direction == "east") {
       this.direction = "north";
     }
   }
 
   this.TurnRight = function() {
-    if (this.direction = "north") {
+    if (this.direction == "north") {
       this.direction = "east";
     }
-    if (this.direction = "south") {
+    if (this.direction == "south") {
       this.direction = "west";
     }
-    if (this.direction = "west") {
+    if (this.direction == "west") {
       this.direction = "north";
     }
-    if (this.direction = "east") {
+    if (this.direction == "east") {
       this.direction = "south";
     }
   }
@@ -63,16 +64,16 @@ var player1 = function() {
 var player2 = function() {
   this.x = 0;
   this.y = 0;
-  this.direction = "";
+  this.direction = "west";
 
   this.TurnLeft = function() {
-    if (this.direction = "north") {
+    if (this.direction == "north") {
       this.direction = "west";
     }
-    if (this.direction = "south") {
+    if (this.direction == "south") {
       this.direction = "east";
     }
-    if (this.direction = "west") {
+    if (this.direction == "west") {
       this.direction = "south";
     }
     if (this.direction = "east") {
@@ -81,22 +82,21 @@ var player2 = function() {
   }
 
   this.TurnRight = function() {
-    if (this.direction = "north") {
+    if (this.direction == "north") {
       this.direction = "east";
     }
-    if (this.direction = "south") {
+    if (this.direction == "south") {
       this.direction = "west";
     }
-    if (this.direction = "west") {
+    if (this.direction == "west") {
       this.direction = "north";
     }
-    if (this.direction = "east") {
+    if (this.direction == "east") {
       this.direction = "south";
     }
   }
 }
 
-document.addEventListener("keydown", KeyDown, false);
 //ctx.fillStyle = "any color";
 
 function InitStage() {
@@ -128,72 +128,95 @@ InitStage();
 DrawStage();
 
 //Player Starting Positions
-player1.y = 21;
+player1.y = 23;
 player1.x = 0;
-player2.y = 21;
+player2.y = 23;
 player2.x = 63;
+
+stageArray[player1.x][player1.y][0] = [PLAYER1COLOR];
+stageArray[player1.x][player1.y][1] = "p1";
+
+stageArray[player2.x][player2.y][0] = [PLAYER2COLOR];
+stageArray[player2.x][player2.y][1] = "p2";
 
 DrawStage();
 
 function Player1AI(stage, me, enemyPosition) {
 
+  return me;
 }
 
 function Player2AI(stage, me, enemyPosition) {
 
+  return me;
 }
 
 alert("Ready to start?");
 
-function MainLoop() {
+var x = 0;
+
+MainLoop = function() {
   c.width = c.width;
 
   currentStage = stageArray;
   currentPlayer1 = player1;
   currentPlayer2 = player2;
 
-  Player1AI(currentStage, player1, [currentPlayer2.x, currentPlayer2.y]);
-  Player2AI(currentStage, player2, [currentPlayer1.x, currentPlayer1.y]);
+  player1.direction = Player1AI(currentStage, player1, [currentPlayer2.x, currentPlayer2.y]).direction;
+  player2.direction = Player2AI(currentStage, player2, [currentPlayer1.x, currentPlayer1.y]).direction;
 
   //Player 1 shit
-  if (player1.direction = "north") {
-    player1.y = player1.y + 1;
-  }
-  if (player1.direction = "south") {
+  if (player1.direction == "north") {
     player1.y = player1.y - 1;
   }
-  if (player1.direction = "west") {
+  if (player1.direction == "south") {
+    player1.y = player1.y + 1;
+  }
+  if (player1.direction == "west") {
     player1.x = player1.x - 1;
   }
-  if (player1.direction = "east") {
+  if (player1.direction == "east") {
     player1.x = player1.x + 1;
   }
 
   //Player 2 shit
-  if (player2.direction = "north") {
-    player1.y = player1.y + 1;
-  }
-  if (player2.direction = "south") {
+  if (player2.direction == "north") {
     player1.y = player1.y - 1;
   }
-  if (player2.direction = "west") {
+  if (player2.direction == "south") {
+    player1.y = player1.y + 1;
+  }
+  if (player2.direction == "west") {
     player1.x = player1.x - 1;
   }
-  if (player2.direction = "east") {
+  if (player2.direction == "east") {
     player1.x = player1.x + 1;
   }
 
   //Actually places the players
-  stageArray[player1.x][player1.y][0] = [PLAYER1COLOR];
+  stageArray[player1.x][player1.y][0] = PLAYER1COLOR;
   stageArray[player1.x][player1.y][1] = "p1";
 
-  stageArray[player2.x][player2.y][0] = [PLAYER2COLOR];
+  stageArray[player2.x][player2.y][0] = PLAYER2COLOR;
   stageArray[player2.x][player2.y][1] = "p2";
 
   DrawStage();
+  //alert(x);
+  x = x + 1;
+
+  if (hasEscaped == "true") {
+    window.clearInterval(MainLoop);
+  }
 }
 
-if (hasEscaped == "false") {
-  setTimeout(MainLoop, MAINTIMEOUT);
-}
+window.setInterval(MainLoop, MAINTIMEOUT);
+
+//while (hasEscaped = "false") {
+ /// MainLoop();
+//}
+
+//MainLoop();
+//if (hasEscaped == "false") {
+//  setTimeout(MainLoop, MAINTIMEOUT);
+//}
 </script>
