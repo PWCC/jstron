@@ -9,6 +9,7 @@ var STAGECOLOR = "#660000";
 var hasEscaped = "false";
 var PLAYER1COLOR = "#006600";
 var PLAYER2COLOR = "#000066";
+var MAINTIMEOUT = "500";
 
 var c = document.getElementById("jstron");
 var ctx = c.getContext("2d");
@@ -95,7 +96,7 @@ var player2 = function() {
   }
 }
 
-//document.addEventListener("keydown", KeyDown, false);
+document.addEventListener("keydown", KeyDown, false);
 //ctx.fillStyle = "any color";
 
 function InitStage() {
@@ -116,40 +117,43 @@ function DrawStage() {
   }
 }
 
-/*
 function KeyDown(e) {
-  //W Key
-  if (e.keyCode == 87) {
-    
-  }
-
-  //S Key
-  if (e.keyCode == 83) {
-
-  }
-
-  //A Key
-  if (e.keyCode == 65) {
-
-  }
-
-  //D Key
-  if (e.keyCode == 68) {
-
-  }
-  
-  //Esc
+  //P key
   if (e.keyCode == 80) {
     hasEscaped = "true";
   }
 }
-*/
 
 InitStage();
 DrawStage();
 
+//Player Starting Positions
+player1.y = 21;
+player1.x = 0;
+player2.y = 21;
+player2.x = 63;
+
+DrawStage();
+
+function Player1AI(stage, me, enemyPosition) {
+
+}
+
+function Player2AI(stage, me, enemyPosition) {
+
+}
+
+alert("Ready to start?");
+
 function MainLoop() {
   c.width = c.width;
+
+  currentStage = stageArray;
+  currentPlayer1 = player1;
+  currentPlayer2 = player2;
+
+  Player1AI(currentStage, player1, [currentPlayer2.x, currentPlayer2.y]);
+  Player2AI(currentStage, player2, [currentPlayer1.x, currentPlayer1.y]);
 
   //Player 1 shit
   if (player1.direction = "north") {
@@ -179,12 +183,17 @@ function MainLoop() {
     player1.x = player1.x + 1;
   }
 
-  stageArray[player1.x][player1.y][0] = 
+  //Actually places the players
+  stageArray[player1.x][player1.y][0] = [PLAYER1COLOR];
+  stageArray[player1.x][player1.y][1] = "p1";
+
+  stageArray[player2.x][player2.y][0] = [PLAYER2COLOR];
+  stageArray[player2.x][player2.y][1] = "p2";
 
   DrawStage();
 }
 
 if (hasEscaped == "false") {
-  MainLoop();
+  setTimeout(MainLoop, MAINTIMEOUT);
 }
 </script>
