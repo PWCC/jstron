@@ -198,12 +198,13 @@ MainLoop = function() {
 
   p1lost = false;
   p2lost = false
-  if (!stageArray[player1.x] || !stageArray[player1.x][player1.y]) {
+  if (!stageArray[player1.x] || !stageArray[player1.x][player1.y] ||
+      stageArray[player1.x][player1.y][0] != STAGECOLOR)
       p1lost = true;
-  }
-  if (!stageArray[player2.x] || !stageArray[player2.x][player2.y]) {
+  if (!stageArray[player2.x] || !stageArray[player2.x][player2.y] ||
+      stageArray[player2.x][player2.y][0] != STAGECOLOR)
       p2lost = true;
-  }
+
   if (p1lost || p2lost) {
     if (p1lost && p2lost)
       alert("You both lost.");
