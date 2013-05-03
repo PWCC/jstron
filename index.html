@@ -7,7 +7,7 @@ var STAGEWIDTH = 64; //units blocksize
 var STAGEHEIGHT = 48; //units blocksize
 var BLOCKSIZE = 10; //px
 var STAGECOLOR = "#660000";
-var hasEscaped = "false";
+var hasEscaped = false;
 var PLAYER1COLOR = "#006600";
 var PLAYER2COLOR = "#000066";
 var MAINTIMEOUT = "500";
@@ -106,9 +106,19 @@ function InitStage() {
       stageArray[i][y] = [STAGECOLOR, ""];
     }
   }
+  player1.y = 23;
+  player1.x = 0;
+  player2.y = 23;
+  player2.x = 63;
 }
 
 function DrawStage() {
+  stageArray[player1.x][player1.y][0] = PLAYER1COLOR;
+  stageArray[player1.x][player1.y][1] = "p1";
+
+  stageArray[player2.x][player2.y][0] = PLAYER2COLOR;
+  stageArray[player2.x][player2.y][1] = "p2";
+
   for (var i = 0; i < STAGEWIDTH; i++) {
     for (var y = 0; y < STAGEHEIGHT; y++) {
       ctx.fillStyle = stageArray[i][y][0];
@@ -120,25 +130,11 @@ function DrawStage() {
 function KeyDown(e) {
   //P key
   if (e.keyCode == 80) {
-    hasEscaped = "true";
+    hasEscaped = true;
   }
 }
 
 InitStage();
-DrawStage();
-
-//Player Starting Positions
-player1.y = 23;
-player1.x = 0;
-player2.y = 23;
-player2.x = 63;
-
-stageArray[player1.x][player1.y][0] = [PLAYER1COLOR];
-stageArray[player1.x][player1.y][1] = "p1";
-
-stageArray[player2.x][player2.y][0] = [PLAYER2COLOR];
-stageArray[player2.x][player2.y][1] = "p2";
-
 DrawStage();
 
 function Player1AI(stage, me, enemyPosition) {
@@ -172,6 +168,7 @@ MainLoop = function() {
   player2.direction = Player2AI(currentStage, currentPlayer2, [currentPlayer1.x, currentPlayer1.y]).direction;
 
   //Player 1 shit
+
   if (player1.direction == "north") {
     player1.y = player1.y - 1;
   }
@@ -199,18 +196,32 @@ MainLoop = function() {
     player2.x = player2.x + 1;
   }
 
-  //Actually places the players
-  stageArray[player1.x][player1.y][0] = PLAYER1COLOR;
-  stageArray[player1.x][player1.y][1] = "p1";
+  p1lost = false;
+  p2lost = false
+  if (!stageArray[player1.x] || !stageArray[player1.x][player1.y] ||
+      stageArray[player1.x][player1.y][0] != STAGECOLOR)
+      p1lost = true;
+  if (!stageArray[player2.x] || !stageArray[player2.x][player2.y] ||
+      stageArray[player2.x][player2.y][0] != STAGECOLOR)
+      p2lost = true;
 
-  stageArray[player2.x][player2.y][0] = PLAYER2COLOR;
-  stageArray[player2.x][player2.y][1] = "p2";
+  if (p1lost || p2lost) {
+    if (p1lost && p2lost)
+      alert("You both lost.");
+    else {
+      if (p1lost)
+        alert("Player 1 lost.");
+      if (p2lost)
+        alert("Player 2 lost.");
+    }
+    InitStage();
+  }
 
   DrawStage();
   //alert(x);
   x = x + 1;
 
-  if (hasEscaped == "true") {
+  if (hasEscaped) {
     window.clearInterval(MainLoop);
   }
 }
