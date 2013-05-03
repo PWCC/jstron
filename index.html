@@ -1,0 +1,190 @@
+<canvas id="jstron" width="640" height="480"></canvas>
+
+<script>
+
+var STAGEWIDTH = 64; //units blocksize
+var STAGEHEIGHT = 48; //units blocksize
+var BLOCKSIZE = 10; //px
+var STAGECOLOR = "#660000";
+var hasEscaped = "false";
+var PLAYER1COLOR = "#006600";
+var PLAYER2COLOR = "#000066";
+
+var c = document.getElementById("jstron");
+var ctx = c.getContext("2d");
+
+var stageArray = new Array(STAGEWIDTH);
+for (var i = 0; i < STAGEWIDTH; i++) {
+  stageArray[i] = new Array(STAGEHEIGHT);
+}
+
+//Temperary Variables
+var currentPlayer1;
+var currentPlayer2;
+var currentStage;
+
+var player1 = function() {
+  this.x = 0;
+  this.y = 0;
+  this.direction = "";
+
+  this.TurnLeft = function() {
+    if (this.direction = "north") {
+      this.direction = "west";
+    }
+    if (this.direction = "south") {
+      this.direction = "east";
+    }
+    if (this.direction = "west") {
+      this.direction = "south";
+    }
+    if (this.direction = "east") {
+      this.direction = "north";
+    }
+  }
+
+  this.TurnRight = function() {
+    if (this.direction = "north") {
+      this.direction = "east";
+    }
+    if (this.direction = "south") {
+      this.direction = "west";
+    }
+    if (this.direction = "west") {
+      this.direction = "north";
+    }
+    if (this.direction = "east") {
+      this.direction = "south";
+    }
+  }
+}
+
+var player2 = function() {
+  this.x = 0;
+  this.y = 0;
+  this.direction = "";
+
+  this.TurnLeft = function() {
+    if (this.direction = "north") {
+      this.direction = "west";
+    }
+    if (this.direction = "south") {
+      this.direction = "east";
+    }
+    if (this.direction = "west") {
+      this.direction = "south";
+    }
+    if (this.direction = "east") {
+      this.direction = "north";
+    }
+  }
+
+  this.TurnRight = function() {
+    if (this.direction = "north") {
+      this.direction = "east";
+    }
+    if (this.direction = "south") {
+      this.direction = "west";
+    }
+    if (this.direction = "west") {
+      this.direction = "north";
+    }
+    if (this.direction = "east") {
+      this.direction = "south";
+    }
+  }
+}
+
+//document.addEventListener("keydown", KeyDown, false);
+//ctx.fillStyle = "any color";
+
+function InitStage() {
+  for (var i = 0; i < STAGEWIDTH; i++) {
+    for(var y = 0; y < STAGEHEIGHT; y++) {
+      stageArray[i][y] = new Array(2);
+      stageArray[i][y] = [STAGECOLOR, ""];
+    }
+  }
+}
+
+function DrawStage() {
+  for (var i = 0; i < STAGEWIDTH; i++) {
+    for (var y = 0; y < STAGEHEIGHT; y++) {
+      ctx.fillStyle = stageArray[i][y][0];
+      ctx.fillRect(i*BLOCKSIZE, y*BLOCKSIZE, BLOCKSIZE, BLOCKSIZE);
+    }
+  }
+}
+
+/*
+function KeyDown(e) {
+  //W Key
+  if (e.keyCode == 87) {
+    
+  }
+
+  //S Key
+  if (e.keyCode == 83) {
+
+  }
+
+  //A Key
+  if (e.keyCode == 65) {
+
+  }
+
+  //D Key
+  if (e.keyCode == 68) {
+
+  }
+  
+  //Esc
+  if (e.keyCode == 80) {
+    hasEscaped = "true";
+  }
+}
+*/
+
+InitStage();
+DrawStage();
+
+function MainLoop() {
+  c.width = c.width;
+
+  //Player 1 shit
+  if (player1.direction = "north") {
+    player1.y = player1.y + 1;
+  }
+  if (player1.direction = "south") {
+    player1.y = player1.y - 1;
+  }
+  if (player1.direction = "west") {
+    player1.x = player1.x - 1;
+  }
+  if (player1.direction = "east") {
+    player1.x = player1.x + 1;
+  }
+
+  //Player 2 shit
+  if (player2.direction = "north") {
+    player1.y = player1.y + 1;
+  }
+  if (player2.direction = "south") {
+    player1.y = player1.y - 1;
+  }
+  if (player2.direction = "west") {
+    player1.x = player1.x - 1;
+  }
+  if (player2.direction = "east") {
+    player1.x = player1.x + 1;
+  }
+
+  stageArray[player1.x][player1.y][0] = 
+
+  DrawStage();
+}
+
+if (hasEscaped == "false") {
+  MainLoop();
+}
+</script>
