@@ -78,13 +78,16 @@ function InitStage() {
   player1.direction = "east";
   player2.direction = "west";
 
-  ymin = Math.floor(STAGEHEIGHT/2) - 10;
-  xmin = Math.floor(STAGEWIDTH/2) - 10;
-  player1.y = Math.floor(Math.random()*11) + ymin;
+    var randwidth = 15;
+  var ymin = Math.floor(STAGEHEIGHT/2) - 10;
+  var xmin = Math.floor(STAGEWIDTH/2) - randwidth;
+    player1.y = Math.floor(Math.random()*(randwidth+1)) + ymin;
   player2.y = player1.y;
-    while (Math.abs(player1.x - player2.x) > 15 || Math.abs(player1.x - player2.x) < 5) {
-	player2.x = STAGEWIDTH - Math.floor(Math.random()*11) - xmin;
+    while (Math.abs(player1.x - player2.x) > 20 || Math.abs(player1.x - player2.x) < 10) {
 	player1.x = Math.floor(Math.random()*11) + xmin;
+	player2.x = STAGEWIDTH - Math.floor(Math.random()*11) - xmin;
+	if (Math.abs(player1.x - player2.x)%2 == 0)
+	    player2.x--;
     }
 }
 
