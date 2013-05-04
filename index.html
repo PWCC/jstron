@@ -33,14 +33,11 @@ function Player() {
   this.TurnLeft = function() {
     if (this.direction == "north") {
       this.direction = "west";
-    }
-    if (this.direction == "south") {
+    } else if (this.direction == "south") {
       this.direction = "east";
-    }
-    if (this.direction == "west") {
+    } else if (this.direction == "west") {
       this.direction = "south";
-    }
-    if (this.direction = "east") {
+    } else if (this.direction = "east") {
       this.direction = "north";
     }
   }
@@ -48,14 +45,11 @@ function Player() {
   this.TurnRight = function() {
     if (this.direction == "north") {
       this.direction = "east";
-    }
-    if (this.direction == "south") {
+    } else if (this.direction == "south") {
       this.direction = "west";
-    }
-    if (this.direction == "west") {
+    } else if (this.direction == "west") {
       this.direction = "north";
-    }
-    if (this.direction == "east") {
+    } else if (this.direction == "east") {
       this.direction = "south";
     }
   }
@@ -107,7 +101,11 @@ InitStage();
 DrawStage();
 
 function Player1AI(stage, me, enemyPosition) {
-  //me.direction = "east";
+  if (me.direction == "north") {
+    if (me.x+1 == ) {
+
+    }
+  }
 
   return me;
 }
