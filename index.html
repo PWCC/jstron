@@ -1,5 +1,5 @@
 <canvas id="jstron" width="640" height="480"></canvas>
-
+<script src="./ai.js" type="text/javascript"></script>
 <script>
 document.addEventListener("keydown", KeyDown, false);
 
@@ -78,17 +78,17 @@ function InitStage() {
   player1.direction = "east";
   player2.direction = "west";
 
-    var randwidth = 15;
+  var randwidth = 15;
   var ymin = Math.floor(STAGEHEIGHT/2) - 10;
   var xmin = Math.floor(STAGEWIDTH/2) - randwidth;
-    player1.y = Math.floor(Math.random()*(randwidth+1)) + ymin;
+  player1.y = Math.floor(Math.random()*(randwidth+1)) + ymin;
   player2.y = player1.y;
-    while (Math.abs(player1.x - player2.x) > 20 || Math.abs(player1.x - player2.x) < 10) {
-	player1.x = Math.floor(Math.random()*11) + xmin;
-	player2.x = STAGEWIDTH - Math.floor(Math.random()*11) - xmin;
-	if (Math.abs(player1.x - player2.x)%2 == 0)
-	    player2.x--;
-    }
+  while (Math.abs(player1.x - player2.x) > 20 || Math.abs(player1.x - player2.x) < 10) {
+    player1.x = Math.floor(Math.random()*11) + xmin;
+    player2.x = STAGEWIDTH - Math.floor(Math.random()*11) - xmin;
+    if (Math.abs(player1.x - player2.x)%2 == 0)
+      player2.x--;
+  }
 }
 
 function DrawStage() {
@@ -116,15 +116,8 @@ function KeyDown(e) {
 InitStage();
 DrawStage();
 
-function Player1AI(stage, me, enemyPosition) {
-
-  return me;
-}
-
-function Player2AI(stage, me, enemyPosition) {
-
-  return me;
-}
+Player1AI = defaultAI;
+Player2AI = defaultAI;
 
 alert("Ready to start?");
 
@@ -173,10 +166,10 @@ MainLoop = function() {
   p2lost = false
   if (!stageArray[player1.x] || !stageArray[player1.x][player1.y] ||
       stageArray[player1.x][player1.y][0] != STAGECOLOR)
-      p1lost = true;
+    p1lost = true;
   if (!stageArray[player2.x] || !stageArray[player2.x][player2.y] ||
       stageArray[player2.x][player2.y][0] != STAGECOLOR)
-      p2lost = true;
+    p2lost = true;
 
   if (p1lost || p2lost) {
     if (p1lost && p2lost)
