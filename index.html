@@ -1,4 +1,4 @@
-<canvas id="jstron" width="640" height="480"></canvas>
+<canvas id="jstron" width="640" height="500"></canvas>
 <script src="./ai.js" type="text/javascript"></script>
 <script>
 document.addEventListener("keydown", KeyDown, false);
@@ -7,10 +7,15 @@ var STAGEWIDTH = 64; //units blocksize
 var STAGEHEIGHT = 48; //units blocksize
 var BLOCKSIZE = 10; //px
 var STAGECOLOR = "#660000";
+var SCORECOLOR = "#000000";
+var SCORETEXTCOLOR = "#FFFFFF";
 var hasEscaped = false;
 var PLAYER1COLOR = "#006600";
 var PLAYER2COLOR = "#000066";
 var MAINTIMEOUT = "20";
+
+var player1Score = 0;
+var player2Score = 0;
 
 var c = document.getElementById("jstron");
 var ctx = c.getContext("2d");
@@ -104,6 +109,12 @@ function DrawStage() {
       ctx.fillRect(i*BLOCKSIZE, y*BLOCKSIZE, BLOCKSIZE, BLOCKSIZE);
     }
   }
+
+  //Score panel
+  ctx.fillStyle = SCORECOLOR;
+  ctx.fillRect(0, 480, 640, 20);
+  ctx.fillStyle = SCORETEXTCOLOR;
+  ctx.fillText = (player1Score + " : " + player2Score, 640/2, 485);
 }
 
 function KeyDown(e) {
@@ -177,18 +188,22 @@ MainLoop = function() {
     else {
       if (p1lost)
         alert("Player 1 lost.");
+        player2Score = player2Score + 1;
       if (p2lost)
         alert("Player 2 lost.");
+        player1Score = player1Score + 1;
     }
     InitStage();
   }
 
   if (player1.direction == "") {
     alert("Not allowed to stop moving, player 2 wins");
+    player2Score = player2Score + 1;
     InitStage();
   }
   if (player2.direction == "") {
     alert("Not allowed to stop moving, player 1 wins");
+    player1Score = player1Score + 1;
     InitStage();
   }
 
