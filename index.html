@@ -25,43 +25,7 @@ var currentPlayer1;
 var currentPlayer2;
 var currentStage;
 
-var player1 = function() {
-  this.x = 0;
-  this.y = 0;
-  this.direction = "";
-
-  this.TurnLeft = function() {
-    if (this.direction == "north") {
-      this.direction = "west";
-    }
-    if (this.direction == "south") {
-      this.direction = "east";
-    }
-    if (this.direction == "west") {
-      this.direction = "south";
-    }
-    if (this.direction == "east") {
-      this.direction = "north";
-    }
-  }
-
-  this.TurnRight = function() {
-    if (this.direction == "north") {
-      this.direction = "east";
-    }
-    if (this.direction == "south") {
-      this.direction = "west";
-    }
-    if (this.direction == "west") {
-      this.direction = "north";
-    }
-    if (this.direction == "east") {
-      this.direction = "south";
-    }
-  }
-}
-
-var player2 = function() {
+function Player() {
   this.x = 0;
   this.y = 0;
   this.direction = "";
@@ -95,7 +59,12 @@ var player2 = function() {
       this.direction = "south";
     }
   }
+
+  return this;
 }
+
+var player1 = new Player();
+var player2 = new Player();
 
 //ctx.fillStyle = "any color";
 
