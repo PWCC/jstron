@@ -1,5 +1,5 @@
 <canvas id="jstron" width="640" height="480"></canvas>
-
+<script src="./ai.js" type="text/javascript"></script>
 <script>
 document.addEventListener("keydown", KeyDown, false);
 
@@ -116,15 +116,8 @@ function KeyDown(e) {
 InitStage();
 DrawStage();
 
-function Player1AI(stage, me, enemyPosition) {
-
-  return me;
-}
-
-function Player2AI(stage, me, enemyPosition) {
-
-  return me;
-}
+Player1AI = defaultAI;
+Player2AI = defaultAI;
 
 alert("Ready to start?");
 
