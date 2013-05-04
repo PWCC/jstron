@@ -10,7 +10,7 @@ var STAGECOLOR = "#660000";
 var hasEscaped = false;
 var PLAYER1COLOR = "#006600";
 var PLAYER2COLOR = "#000066";
-var MAINTIMEOUT = "500";
+var MAINTIMEOUT = "20";
 
 var c = document.getElementById("jstron");
 var ctx = c.getContext("2d");
@@ -57,10 +57,10 @@ function Player() {
   return this;
 }
 
+//ctx.fillStyle = "any color";
+
 var player1 = new Player();
 var player2 = new Player();
-
-//ctx.fillStyle = "any color";
 
 function InitStage() {
   for (var i = 0; i < STAGEWIDTH; i++) {
@@ -69,6 +69,15 @@ function InitStage() {
       stageArray[i][y] = [STAGECOLOR, ""];
     }
   }
+
+  //What it should look like
+  player1.direction = "";
+  player2.directoin = "";
+
+  //Just setting a inital direction so you can see them move lol
+  player1.direction = "east";
+  player2.direction = "west";
+
   player1.y = 23;
   player1.x = 0;
   player2.y = 23;
@@ -113,10 +122,6 @@ function Player2AI(stage, me, enemyPosition) {
 alert("Ready to start?");
 
 var x = 0;
-
-//Just setting a inital direction so you can see them move lol
-player1.direction = "east";
-player2.direction = "west";
 
 MainLoop = function() {
   c.width = c.width;
@@ -175,6 +180,15 @@ MainLoop = function() {
       if (p2lost)
         alert("Player 2 lost.");
     }
+    InitStage();
+  }
+
+  if (player1.direction == "") {
+    alert("Not allowed to stop moving, player 2 wins");
+    InitStage();
+  }
+  if (player2.direction == "") {
+    alert("Not allowed to stop moving, player 1 wins");
     InitStage();
   }
 
