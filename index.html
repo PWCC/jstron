@@ -134,7 +134,7 @@ DrawStage();
 Player1AI = defaultAI;
 Player2AI = defaultAI;
 
-alert("Ready to start?");
+console.log("Ready to start?");
 
 var x = 0;
 
@@ -194,14 +194,14 @@ MainLoop = function() {
 
   if (p1lost || p2lost) {
     if (p1lost && p2lost)
-      alert("You both lost.");
+      console.log("You both lost.");
     else {
       if (p1lost) {
-        alert("Player 1 lost.");
+        console.log("Player 1 lost.");
         player2Score = player2Score + 1;
       }
       if (p2lost) {
-        alert("Player 2 lost.");
+        console.log("Player 2 lost.");
         player1Score = player1Score + 1;
       }
     }
@@ -209,18 +209,18 @@ MainLoop = function() {
   }
 
   if (player1.direction == "") {
-    alert("Not allowed to stop moving, player 2 wins");
+    console.log("Not allowed to stop moving, player 2 wins");
     player2Score = player2Score + 1;
     InitStage();
   }
   if (player2.direction == "") {
-    alert("Not allowed to stop moving, player 1 wins");
+    console.log("Not allowed to stop moving, player 1 wins");
     player1Score = player1Score + 1;
     InitStage();
   }
 
   DrawStage();
-  //alert(x);
+  //console.log(x);
   x = x + 1;
 
   if (hasEscaped) {
