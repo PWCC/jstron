@@ -186,6 +186,12 @@ MainLoop = function() {
       stageArray[player2.x][player2.y][0] != STAGECOLOR)
     p2lost = true;
 
+  if (player1.x == player2.x && player1.y == player2.y)
+    if (Math.random() > 0.5) {
+      p1lost = true;
+    } else
+      p2lost = true;
+
   if (p1lost || p2lost) {
     if (p1lost && p2lost)
       alert("You both lost.");
