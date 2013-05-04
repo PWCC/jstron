@@ -12,7 +12,7 @@ var SCORETEXTCOLOR = "#FFFFFF";
 var hasEscaped = false;
 var PLAYER1COLOR = "#006600";
 var PLAYER2COLOR = "#000066";
-var MAINTIMEOUT = "20";
+var MAINTIMEOUT = "5";
 
 var player1Score = 0;
 var player2Score = 0;
@@ -114,7 +114,11 @@ function DrawStage() {
   ctx.fillStyle = SCORECOLOR;
   ctx.fillRect(0, 480, 640, 20);
   ctx.fillStyle = SCORETEXTCOLOR;
-  ctx.fillText = (player1Score + " : " + player2Score, 640/2, 485);
+  ctx.font = "12px Arial";
+  ctx.textAlign = "left";
+  ctx.fillText("Score (p1:p2)",  12, 493);
+  ctx.textAlign = "center";
+  ctx.fillText("" + player1Score + " : " + player2Score, 640/2, 493)
 }
 
 function KeyDown(e) {
@@ -186,12 +190,14 @@ MainLoop = function() {
     if (p1lost && p2lost)
       alert("You both lost.");
     else {
-      if (p1lost)
+      if (p1lost) {
         alert("Player 1 lost.");
         player2Score = player2Score + 1;
-      if (p2lost)
+      }
+      if (p2lost) {
         alert("Player 2 lost.");
         player1Score = player1Score + 1;
+      }
     }
     InitStage();
   }
