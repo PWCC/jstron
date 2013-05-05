@@ -94,7 +94,8 @@ function InitStage() {
       player2.x--;
   }
 
-  var randSwitch = Math.floor(Math.random());
+  var randSwitch = Math.floor(Math.random()*2);
+  
   var switchTempx = 0;
   if (randSwitch == 0) {
     switchTempx = player1.x
@@ -139,7 +140,7 @@ InitStage();
 DrawStage();
 
 Player1AI = defaultAI;
-Player2AI = defaultAI;
+Player2AI = defaultAI3;
 
 console.log("Ready to start?");
 
