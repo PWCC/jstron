@@ -42,21 +42,10 @@ function defaultAI(stage, me, enemyPosition) {
 			me.TurnRight();
 		}
 	}
-	/*
-	var BlocksArea = function(x, y, dim) {
-		var total = 0;
-		for (var i = 0; i < dim; i++) {
-			for (var e = 0; e < dim; e++) {
-				if ()
-			}
-		}
-
-		return total;
-	}
-	*/
 
 	var CheckCollisions = function() {
 		var colDir = new Array(4);
+
 		if (me.y - 1 < 0 || stageArray[me.x][me.y - 1][0] != STAGECOLOR) {
 			colDir[0] = "north";
 		} else {
@@ -151,9 +140,30 @@ function defaultAI(stage, me, enemyPosition) {
 		}
 	}
 
+	var DoRandomAction = function() {
+		if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
+			&& me.direction == "north") {
+			point[0] += Math.floor(Math.random()*2)-(1 - Math.floor(Math.random()));
+			point[1] += 1;
+		} else if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
+			&& me.direction == "south") {
+			point[0] += Math.floor(Math.random()*2)-(1 - Math.floor(Math.random()));
+			point[1] -= 1;
+		} else if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
+			&& me.direction == "east") {
+			point[0] += 1;
+			point[1] += Math.floor(Math.random()*2)-(1 - Math.floor(Math.random()));
+		} else if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
+			&& me.direction == "west") {
+			point[0] -= 1;
+			point[1] += Math.floor(Math.random()*2)-(1 - Math.floor(Math.random()));
+		}
+	}
+
 	var EvadeCollision = function() {
 		//console.log(TotalCollisions());
 		if (TotalCollisions() == 3) {
+			DoRandomAction();
 			if (CheckCollisions()[0] == "") {
 				me.direction = "north";
 			} else if (CheckCollisions()[1] == "") {
@@ -181,35 +191,14 @@ function defaultAI(stage, me, enemyPosition) {
 
 		//Evading Deadend
 	}
-	var DoRandomAction = function() {
-		if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
-			&& me.direction == "north") {
-			point[0] += Math.floor(Math.random()*2)-(1 - Math.floor(Math.random()));
-			point[1] += 1;
-		} else if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
-			&& me.direction == "south") {
-			point[0] += Math.floor(Math.random()*2)-(1 - Math.floor(Math.random()));
-			point[1] -= 1;
-		} else if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
-			&& me.direction == "east") {
-			point[0] += 1;
-			point[1] += Math.floor(Math.random()*2)-(1 - Math.floor(Math.random()));
-		} else if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
-			&& me.direction == "west") {
-			point[0] -= 1;
-			point[1] += Math.floor(Math.random()*2)-(1 - Math.floor(Math.random()));
-		}
-	}
 
 	var point = new Array(2);
 	var x = 0;
 	point = enemyPosition;
-	
-	//DoRandomAction();
 
 	MoveToPoint(point);
-	if (me.x + 1 == enemyPosition[0] ||
-		me.x - 1 == enemyPosition[0]) {
+
+	if (DistanceToPoint([me.x, me.y], enemyPosition) <= 1) {
 		if (me.direction == "north") {
 			me.direction = "south";
 		} else if (me.direction == "east") {
@@ -220,25 +209,13 @@ function defaultAI(stage, me, enemyPosition) {
 			me.direction = "east";
 		}
 	} else {
-		DoRandomAction();
+		//DoRandomAction();
 	}
-	if (me.y + 1 == enemyPosition[1] ||
-		me.y - 1 == enemyPosition[1]) {
-		if (me.direction == "north") {
-			me.direction = "south";
-		} else if (me.direction == "east") {
-			me.direction = "west";
-		} else if (me.direction == "south") {
-			me.direction = "north";
-		} else if (me.direction == "west") {
-			me.direction = "east";
-		}
-	} else {
-		DoRandomAction();
-	}
-	
+
 	EvadeCollision();
+	//DoRandomAction();
 	EvadeDeadEnd();
+	EvadeCollision();
 
 	return me; 
 }
@@ -289,4 +266,95 @@ function defaultAI2(stage, me, enemyPosition) {
 	    } else
 		break;
     return me;
+}
+
+function defaultAI3(stage, me, enemyPosition) { 
+	function nope(direction) {
+		switch(direction) {
+		case "east":
+		    if (!stage[me.x+1] || stage[me.x+1][me.y][0] != STAGECOLOR)
+			return true;
+		    break;
+		case "west":
+		    if (!stage[me.x-1] || stage[me.x-1][me.y][0] != STAGECOLOR)
+			return true;
+		    break;
+		case "south":
+		    if (!stage[me.x][me.y+1] || stage[me.x][me.y+1][0] != STAGECOLOR)
+			return true;
+		    break;
+		case "north":
+		    if (!stage[me.x][me.y-1] || stage[me.x][me.y-1][0] != STAGECOLOR)
+			return true;
+		    break;
+		default:
+		    return false;
+		}
+		return false;
+	    }
+	    
+	    function yep(direction) {
+		switch(direction) {
+		case "north":
+		    if (stage[me.x-1] && stage[me.x-1][me.y+1] && stage[me.x-1][me.y] && stage[me.x-1][me.y+1][0] != STAGECOLOR && stage[me.x-1][me.y][0] == STAGECOLOR) {
+			me.TurnLeft();
+		    } else if (stage[me.x+1] && stage[me.x+1][me.y+1] && stage[me.x+1][me.y] && stage[me.x+1][me.y+1][0] != STAGECOLOR && stage[me.x+1][me.y][0] == STAGECOLOR) {
+			me.TurnRight();
+		    }
+		    break;
+		case "south":
+		    if (stage[me.x-1] && stage[me.x-1][me.y-1] && stage[me.x-1][me.y] && stage[me.x-1][me.y-1][0] != STAGECOLOR && stage[me.x-1][me.y] == STAGECOLOR) {
+			me.TurnRight();
+		    } else if (stage[me.x+1] && stage[me.x+1][me.y-1] && stage[me.x+1][me.y] && stage[me.x+1][me.y-1][0] != STAGECOLOR && stage[me.x+1][me.y][0] == STAGECOLOR) {
+			me.TurnLeft();
+		    }
+		    break;
+		case "east":
+		    if (stage[me.x-1] && stage[me.x-1][me.y+1] && stage[me.x][me.y+1] && stage[me.x-1][me.y+1][0] != STAGECOLOR && stage[me.x][me.y+1] == STAGECOLOR) {
+			me.TurnRight();
+		    } else if (stage[me.x-1] && stage[me.x-1][me.y-1] && stage[me.x][me.y-1] && stage[me.x-1][me.y-1][0] != STAGECOLOR && stage[me.x][me.y-1][0] == STAGECOLOR) {
+			me.TurnLeft();
+		    }
+		    break;
+		case "west":
+		    if (stage[me.x+1] && stage[me.x+1][me.y+1] && stage[me.x][me.y+1] && stage[me.x+1][me.y+1][0] != STAGECOLOR && stage[me.x][me.y+1] == STAGECOLOR) {
+			me.TurnLeft();
+		    } else if (stage[me.x+1] && stage[me.x+1][me.y-1] && stage[me.x][me.y-1] && stage[me.x+1][me.y-1][0] != STAGECOLOR && stage[me.x][me.y-1][0] == STAGECOLOR) {
+			me.TurnRight();
+		    }
+		    break;
+		default:
+		    break;
+		}
+	    }
+
+	    var i;
+	    if (nope(me.direction)) {
+		if (me.direction.length == 5) {
+		    var maxx, minx;
+		    for (minx = me.x-1;stage[minx] && stage[minx][me.y][0] == STAGECOLOR;minx--);
+		    for (maxx = me.x+1;stage[maxx] && stage[maxx][me.y][0] == STAGECOLOR;maxx--);
+		    var width = Math.floor((maxx-minx)/2);
+		    if (me.x-minx > width) {
+			me.direction = "west";
+		    } else {
+			me.direction = "east";
+		    }
+		} else {
+		    var maxy, miny;
+		    for (miny = me.y-1;stage[me.x][miny] && stage[me.x][miny][0] == STAGECOLOR;miny--);
+		    for (maxy = me.y+1;stage[me.x][maxy] && stage[me.x][maxy][0] == STAGECOLOR;maxy++);
+		    var height = Math.floor((maxy - miny)/2);
+		    if (me.y-miny > height) {
+			me.direction = "north";
+		    } else {
+			me.direction = "south";
+		    }
+		}
+	    } else {
+		yep(me.direction);
+	    }
+	    for (i=0;i<4 && nope(me.direction);i++)
+		me.TurnLeft();
+	    return me;
 }
