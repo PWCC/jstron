@@ -140,6 +140,7 @@ function defaultAI(stage, me, enemyPosition) {
 		}
 	}
 
+/*
 	var DoRandomAction = function() {
 		if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
 			&& me.direction == "north") {
@@ -159,11 +160,11 @@ function defaultAI(stage, me, enemyPosition) {
 			point[1] += Math.floor(Math.random()*2)-(1 - Math.floor(Math.random()));
 		}
 	}
-
+*/
 	var EvadeCollision = function() {
 		//console.log(TotalCollisions());
 		if (TotalCollisions() == 3) {
-			DoRandomAction();
+			//DoRandomAction();
 			if (CheckCollisions()[0] == "") {
 				me.direction = "north";
 			} else if (CheckCollisions()[1] == "") {
@@ -187,9 +188,9 @@ function defaultAI(stage, me, enemyPosition) {
 				me.TurnRight();
 				me.TurnRight();
 			}
+		} else if (TotalCollisions() == 0) {
+			MoveToPoint(enemyPosition);
 		}
-
-		//Evading Deadend
 	}
 
 	var point = new Array(2);
@@ -208,12 +209,9 @@ function defaultAI(stage, me, enemyPosition) {
 		} else if (me.direction == "west") {
 			me.direction = "east";
 		}
-	} else {
-		//DoRandomAction();
 	}
 
 	EvadeCollision();
-	//DoRandomAction();
 	EvadeDeadEnd();
 	EvadeCollision();
 
