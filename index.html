@@ -25,11 +25,6 @@ for (var i = 0; i < STAGEWIDTH; i++) {
   stageArray[i] = new Array(STAGEHEIGHT);
 }
 
-//Temperary Variables
-var currentPlayer1;
-var currentPlayer2;
-var currentStage;
-
 function Player() {
   this.x = 0;
   this.y = 0;
@@ -68,6 +63,10 @@ var player1 = new Player();
 var player2 = new Player();
 
 function InitStage() {
+  stageArray = new Array(STAGEWIDTH);
+  for (var i = 0; i < STAGEWIDTH; i++) {
+    stageArray[i] = new Array(STAGEHEIGHT);
+  }
   for (var i = 0; i < STAGEWIDTH; i++) {
     for(var y = 0; y < STAGEHEIGHT; y++) {
       stageArray[i][y] = new Array(2);
@@ -140,7 +139,7 @@ InitStage();
 DrawStage();
 
 Player1AI = defaultAI;
-Player2AI = defaultAI;
+Player2AI = defaultAI2;
 
 console.log("Ready to start?");
 
@@ -149,6 +148,14 @@ var x = 0;
 MainLoop = function() {
   c.width = c.width;
 
+    //Temperary Variables
+  var currentPlayer1 = new Player();
+  var currentPlayer2 = new Player();
+  var currentStage = new Array(STAGEWIDTH);
+  for (var i = 0; i < STAGEWIDTH; i++) {
+    currentStage[i] = new Array(STAGEHEIGHT);
+  }
+
   currentStage = stageArray;
   currentPlayer1 = player1;
   currentPlayer2 = player2;
@@ -156,43 +163,47 @@ MainLoop = function() {
   player1.direction = Player1AI(currentStage, currentPlayer1, [currentPlayer2.x, currentPlayer2.y]).direction;
   player2.direction = Player2AI(currentStage, currentPlayer2, [currentPlayer1.x, currentPlayer1.y]).direction;
 
-  //Player 1 shit
+  if (player1.direction == "") {
+    console.log("Not allowed to stop moving, player 2 wins");
+    player2Score = player2Score + 1;
+    InitStage();
+  }
+  if (player2.direction == "") {
+    console.log("Not allowed to stop moving, player 1 wins");
+    player1Score = player1Score + 1;
+    InitStage();
+  }
 
   if (player1.direction == "north") {
     player1.y = player1.y - 1;
-  }
-  if (player1.direction == "south") {
+  } else if (player1.direction == "south") {
     player1.y = player1.y + 1;
-  }
-  if (player1.direction == "west") {
+  } else if (player1.direction == "west") {
     player1.x = player1.x - 1;
-  }
-  if (player1.direction == "east") {
+  } else if (player1.direction == "east") {
     player1.x = player1.x + 1;
   }
 
-  //Player 2 shit
   if (player2.direction == "north") {
     player2.y = player2.y - 1;
-  }
-  if (player2.direction == "south") {
+  } else if (player2.direction == "south") {
     player2.y = player2.y + 1;
-  }
-  if (player2.direction == "west") {
+  } else if (player2.direction == "west") {
     player2.x = player2.x - 1;
-  }
-  if (player2.direction == "east") {
+  } else if (player2.direction == "east") {
     player2.x = player2.x + 1;
-  }
+   }
 
   p1lost = false;
   p2lost = false
   if (!stageArray[player1.x] || !stageArray[player1.x][player1.y] ||
-      stageArray[player1.x][player1.y][0] != STAGECOLOR)
+      stageArray[player1.x][player1.y][0] != STAGECOLOR) {
     p1lost = true;
+  }
   if (!stageArray[player2.x] || !stageArray[player2.x][player2.y] ||
-      stageArray[player2.x][player2.y][0] != STAGECOLOR)
+      stageArray[player2.x][player2.y][0] != STAGECOLOR) {
     p2lost = true;
+  }
 
   if (player1.x == player2.x && player1.y == player2.y)
     if (Math.random() > 0.5) {
@@ -216,34 +227,12 @@ MainLoop = function() {
     InitStage();
   }
 
-  if (player1.direction == "") {
-    console.log("Not allowed to stop moving, player 2 wins");
-    player2Score = player2Score + 1;
-    InitStage();
-  }
-  if (player2.direction == "") {
-    console.log("Not allowed to stop moving, player 1 wins");
-    player1Score = player1Score + 1;
-    InitStage();
-  }
+
+  console.log("(" + player1.x + ", " + player1.y + ")");
 
   DrawStage();
   //console.log(x);
-  x = x + 1;
-
-  if (hasEscaped) {
-    window.clearInterval(MainLoop);
-  }
 }
 
 window.setInterval(MainLoop, MAINTIMEOUT);
-
-//while (hasEscaped = "false") {
- /// MainLoop();
-//}
-
-//MainLoop();
-//if (hasEscaped == "false") {
-//  setTimeout(MainLoop, MAINTIMEOUT);
-//}
 </script>
