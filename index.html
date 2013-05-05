@@ -93,6 +93,14 @@ function InitStage() {
     if (Math.abs(player1.x - player2.x)%2 == 0)
       player2.x--;
   }
+
+  var randSwitch = Math.floor(Math.random());
+  var switchTempx = 0;
+  if (randSwitch == 0) {
+    switchTempx = player1.x
+    player1.x = player2.x;
+    player2.x = switchTempx;
+  }
 }
 
 function DrawStage() {
