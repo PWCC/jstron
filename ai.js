@@ -139,7 +139,6 @@ function defaultAI(stage, me, enemyPosition) {
 			me.x += 1;
 		}
 	}
-
 /*
 	var DoRandomAction = function() {
 		if (DistanceToPoint([me.x, me.y], point) > DistanceToPoint(enemyPosition, point)
@@ -194,12 +193,18 @@ function defaultAI(stage, me, enemyPosition) {
 	}
 
 	var point = new Array(2);
-	var x = 0;
+	var specificDistance = 0;
 	point = enemyPosition;
 
 	MoveToPoint(point);
 
-	if (DistanceToPoint([me.x, me.y], enemyPosition) <= 1) {
+	if (me.x != enemyPosition[0] || me.y != enemyPosition[0]) {
+		specificDistance = 0;
+	} else {
+		specificDistance = 2;
+	}
+
+	if (DistanceToPoint([me.x, me.y], enemyPosition) <= 0) {
 		if (me.direction == "north") {
 			me.direction = "south";
 		} else if (me.direction == "east") {
@@ -266,98 +271,99 @@ function defaultAI2(stage, me, enemyPosition) {
     return me;
 }
 
-function defaultAI3(stage, me, enemyPosition) { 
-	function nope(direction) {
-		switch(direction) {
-		case "east":
-		    if (!stage[me.x+1] || stage[me.x+1][me.y][0] != STAGECOLOR)
-			return true;
-		    break;
-		case "west":
-		    if (!stage[me.x-1] || stage[me.x-1][me.y][0] != STAGECOLOR)
-			return true;
-		    break;
-		case "south":
-		    if (!stage[me.x][me.y+1] || stage[me.x][me.y+1][0] != STAGECOLOR)
-			return true;
-		    break;
-		case "north":
-		    if (!stage[me.x][me.y-1] || stage[me.x][me.y-1][0] != STAGECOLOR)
-			return true;
-		    break;
-		default:
-		    return false;
-		}
-		return false;
-	    }
-	    
-	    function yep(direction) {
-		switch(direction) {
-		case "north":
-		    if (stage[me.x-1] && stage[me.x-1][me.y+1] && stage[me.x-1][me.y] && stage[me.x-1][me.y+1][0] != STAGECOLOR && stage[me.x-1][me.y][0] == STAGECOLOR) {
-			me.TurnLeft();
-		    } else if (stage[me.x+1] && stage[me.x+1][me.y+1] && stage[me.x+1][me.y] && stage[me.x+1][me.y+1][0] != STAGECOLOR && stage[me.x+1][me.y][0] == STAGECOLOR) {
-			me.TurnRight();
-		    }
-		    break;
-		case "south":
-		    if (stage[me.x-1] && stage[me.x-1][me.y-1] && stage[me.x-1][me.y] && stage[me.x-1][me.y-1][0] != STAGECOLOR && stage[me.x-1][me.y] == STAGECOLOR) {
-			me.TurnRight();
-		    } else if (stage[me.x+1] && stage[me.x+1][me.y-1] && stage[me.x+1][me.y] && stage[me.x+1][me.y-1][0] != STAGECOLOR && stage[me.x+1][me.y][0] == STAGECOLOR) {
-			me.TurnLeft();
-		    }
-		    break;
-		case "east":
-		    if (stage[me.x-1] && stage[me.x-1][me.y+1] && stage[me.x][me.y+1] && stage[me.x-1][me.y+1][0] != STAGECOLOR && stage[me.x][me.y+1] == STAGECOLOR) {
-			me.TurnRight();
-		    } else if (stage[me.x-1] && stage[me.x-1][me.y-1] && stage[me.x][me.y-1] && stage[me.x-1][me.y-1][0] != STAGECOLOR && stage[me.x][me.y-1][0] == STAGECOLOR) {
-			me.TurnLeft();
-		    }
-		    break;
-		case "west":
-		    if (stage[me.x+1] && stage[me.x+1][me.y+1] && stage[me.x][me.y+1] && stage[me.x+1][me.y+1][0] != STAGECOLOR && stage[me.x][me.y+1] == STAGECOLOR) {
-			me.TurnLeft();
-		    } else if (stage[me.x+1] && stage[me.x+1][me.y-1] && stage[me.x][me.y-1] && stage[me.x+1][me.y-1][0] != STAGECOLOR && stage[me.x][me.y-1][0] == STAGECOLOR) {
-			me.TurnRight();
-		    }
-		    break;
-		default:
-		    break;
-		}
-	    }
-
-	    var i;
-	    if (nope(me.direction)) {
-		if (me.direction.length == 5) {
-		    var maxx, minx;
-		    for (minx = me.x-1;stage[minx] && stage[minx][me.y][0] == STAGECOLOR;minx--);
-		    for (maxx = me.x+1;stage[maxx] && stage[maxx][me.y][0] == STAGECOLOR;maxx--);
-		    var width = Math.floor((maxx-minx)/2);
-		    if (me.x-minx > width) {
-			me.direction = "west";
-		    } else {
-			me.direction = "east";
-		    }
-		} else {
-		    var maxy, miny;
-		    for (miny = me.y-1;stage[me.x][miny] && stage[me.x][miny][0] == STAGECOLOR;miny--);
-		    for (maxy = me.y+1;stage[me.x][maxy] && stage[me.x][maxy][0] == STAGECOLOR;maxy++);
-		    var height = Math.floor((maxy - miny)/2);
-		    if (me.y-miny > height) {
-			me.direction = "north";
-		    } else {
-			me.direction = "south";
-		    }
-		}
-	    } else {
-		yep(me.direction);
-	    }
-	    for (i=0;i<4 && nope(me.direction);i++)
+function defaultAI3(stage, me, enemyPosition) {
+    function nope(direction) {
+	switch(direction) {
+	case "east":
+	    if (!stage[me.x+1] || stage[me.x+1][me.y][0] != STAGECOLOR)
+		return true;
+	    break;
+	case "west":
+	    if (!stage[me.x-1] || stage[me.x-1][me.y][0] != STAGECOLOR)
+		return true;
+	    break;
+	case "south":
+	    if (!stage[me.x][me.y+1] || stage[me.x][me.y+1][0] != STAGECOLOR)
+		return true;
+	    break;
+	case "north":
+	    if (!stage[me.x][me.y-1] || stage[me.x][me.y-1][0] != STAGECOLOR)
+		return true;
+	    break;
+	default:
+	    return false;
+	}
+	return false;
+    }
+    
+    function yep(direction) {
+	switch(direction) {
+	case "north":
+	    if (stage[me.x-1] && stage[me.x-1][me.y+1] && stage[me.x-1][me.y] && stage[me.x-1][me.y+1][0] != STAGECOLOR && stage[me.x-1][me.y][0] == STAGECOLOR) {
 		me.TurnLeft();
-	    return me;
+	    } else if (stage[me.x+1] && stage[me.x+1][me.y+1] && stage[me.x+1][me.y] && stage[me.x+1][me.y+1][0] != STAGECOLOR && stage[me.x+1][me.y][0] == STAGECOLOR) {
+		me.TurnRight();
+	    }
+	    break;
+	case "south":
+	    if (stage[me.x-1] && stage[me.x-1][me.y-1] && stage[me.x-1][me.y] && stage[me.x-1][me.y-1][0] != STAGECOLOR && stage[me.x-1][me.y][0] == STAGECOLOR) {
+		me.TurnRight();
+	    } else if (stage[me.x+1] && stage[me.x+1][me.y-1] && stage[me.x+1][me.y] && stage[me.x+1][me.y-1][0] != STAGECOLOR && stage[me.x+1][me.y][0] == STAGECOLOR) {
+		me.TurnLeft();
+	    }
+	    break;
+	case "east":
+	    if (stage[me.x-1] && stage[me.x-1][me.y+1] && stage[me.x][me.y+1] && stage[me.x-1][me.y+1][0] != STAGECOLOR && stage[me.x][me.y+1][0] == STAGECOLOR) {
+		me.TurnRight();
+	    } else if (stage[me.x-1] && stage[me.x-1][me.y-1] && stage[me.x][me.y-1] && stage[me.x-1][me.y-1][0] != STAGECOLOR && stage[me.x][me.y-1][0] == STAGECOLOR) {
+		me.TurnLeft();
+	    }
+	    break;
+	case "west":
+	    if (stage[me.x+1] && stage[me.x+1][me.y+1] && stage[me.x][me.y+1] && stage[me.x+1][me.y+1][0] != STAGECOLOR && stage[me.x][me.y+1][0] == STAGECOLOR) {
+		me.TurnLeft();
+	    } else if (stage[me.x+1] && stage[me.x+1][me.y-1] && stage[me.x][me.y-1] && stage[me.x+1][me.y-1][0] != STAGECOLOR && stage[me.x][me.y-1][0] == STAGECOLOR) {
+		me.TurnRight();
+	    }
+	    break;
+	default:
+	    break;
+	}
+    }
+
+    var i;
+    if (nope(me.direction)) {
+	if (me.direction.length == 5) {
+	    var maxx, minx;
+	    for (minx = me.x-1;stage[minx] && stage[minx][me.y][0] == STAGECOLOR;minx--);
+	    for (maxx = me.x+1;stage[maxx] && stage[maxx][me.y][0] == STAGECOLOR;maxx--);
+	    var width = Math.floor((maxx-minx)/2);
+	    if (me.x-minx > width) {
+		me.direction = "west";
+	    } else {
+		me.direction = "east";
+	    }
+	} else {
+	    var maxy, miny;
+	    for (miny = me.y-1;stage[me.x][miny] && stage[me.x][miny][0] == STAGECOLOR;miny--);
+	    for (maxy = me.y+1;stage[me.x][maxy] && stage[me.x][maxy][0] == STAGECOLOR;maxy++);
+	    var height = Math.floor((maxy - miny)/2);
+	    if (me.y-miny > height) {
+		me.direction = "north";
+	    } else {
+		me.direction = "south";
+	    }
+	}
+    } else {
+	yep(me.direction);
+    }
+    for (i=0;i<4 && nope(me.direction);i++)
+	me.TurnLeft();
+    return me;
 }
 
-function defaultAI4(stage, me, enemyPosition) {
+
+function defaultAI0(stage, me, enemyPosition) {
 	me.direction = "north";
 
 	return me;
