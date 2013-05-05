@@ -75,18 +75,12 @@ function InitStage() {
     }
   }
 
-  //What it should look like
-  player1.direction = "";
-  player2.directoin = "";
+  player1 = new Player();
+  player2 = new Player();
 
   //Just setting a inital direction so you can see them move lol
   player1.direction = "east";
   player2.direction = "east";
-
-  player1.y = 0;
-  player1.x = 0;
-  player2.y = 0;
-  player2.x = 0;
 
   var randwidth = 15;
   var ymin = Math.floor(STAGEHEIGHT/2) - 10;
