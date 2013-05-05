@@ -12,7 +12,7 @@ var SCORETEXTCOLOR = "#FFFFFF";
 var hasEscaped = false;
 var PLAYER1COLOR = "#006600";
 var PLAYER2COLOR = "#000066";
-var MAINTIMEOUT = "5";
+var MAINTIMEOUT = "50";
 
 var player1Score = 0;
 var player2Score = 0;
@@ -81,7 +81,12 @@ function InitStage() {
 
   //Just setting a inital direction so you can see them move lol
   player1.direction = "east";
-  player2.direction = "west";
+  player2.direction = "east";
+
+  player1.y = 0;
+  player1.x = 0;
+  player2.y = 0;
+  player2.x = 0;
 
   var randwidth = 15;
   var ymin = Math.floor(STAGEHEIGHT/2) - 10;
