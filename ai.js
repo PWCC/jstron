@@ -58,13 +58,13 @@ function defaultAI(stage, me, enemyPosition) {
 			colDir[3] = "";
 		}
 		
-		if (me.y + 1 > STAGEHEIGHT-1 || stageArray[me.x][me.y + 1][0] != STAGECOLOR) {
+		if (me.y + 1 > STAGEHEIGHT - 1 || stageArray[me.x][me.y + 1][0] != STAGECOLOR) {
 			colDir[2] = "south";
 		} else {
 			colDir[2] = "";
 		}
 		
-		if (me.x + 1 > STAGEWIDTH-1 || stageArray[me.x + 1][me.y][0] != STAGECOLOR) {
+		if (me.x + 1 > STAGEWIDTH - 1 || stageArray[me.x + 1][me.y][0] != STAGECOLOR) {
 			colDir[1] = "east";
 		} else {
 			colDir[1] = "";
@@ -355,4 +355,10 @@ function defaultAI3(stage, me, enemyPosition) {
 	    for (i=0;i<4 && nope(me.direction);i++)
 		me.TurnLeft();
 	    return me;
+}
+
+function defaultAI4(stage, me, enemyPosition) {
+	me.direction = "north";
+
+	return me;
 }
