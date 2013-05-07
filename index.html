@@ -1,6 +1,7 @@
 <canvas id="jstron" width="640" height="500"></canvas>
 <script src="./ai.js" type="text/javascript"></script>
 <script>
+
 document.addEventListener("keydown", KeyDown, false);
 
 var STAGEWIDTH = 64; //units blocksize
@@ -12,7 +13,7 @@ var SCORETEXTCOLOR = "#FFFFFF";
 var hasEscaped = false;
 var PLAYER1COLOR = "#006600";
 var PLAYER2COLOR = "#000066";
-var MAINTIMEOUT = "50";
+var MAINTIMEOUT = "0";
 
 var player1Score = 0;
 var player2Score = 0;
@@ -139,7 +140,7 @@ InitStage();
 DrawStage();
 
 Player1AI = defaultAI;
-Player2AI = defaultAI2;
+Player2AI = defaultAI;
 
 console.log("Ready to start?");
 
@@ -160,8 +161,8 @@ MainLoop = function() {
   currentPlayer1 = player1;
   currentPlayer2 = player2;
 
-  player1.direction = Player1AI(currentStage, currentPlayer1, [currentPlayer2.x, currentPlayer2.y]).direction;
-  player2.direction = Player2AI(currentStage, currentPlayer2, [currentPlayer1.x, currentPlayer1.y]).direction;
+  player1.direction = Player1AI(currentStage, currentPlayer1, [currentPlayer2.x, currentPlayer2.y, currentPlayer2.direction]).direction;
+  player2.direction = Player2AI(currentStage, currentPlayer2, [currentPlayer1.x, currentPlayer1.y, currentPlayer1.direction]).direction;
 
   if (player1.direction == "") {
     console.log("Not allowed to stop moving, player 2 wins");
@@ -228,7 +229,7 @@ MainLoop = function() {
   }
 
 
-  console.log("(" + player1.x + ", " + player1.y + ")");
+  //console.log("(" + player1.x + ", " + player1.y + ")");
 
   DrawStage();
   //console.log(x);
